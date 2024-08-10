@@ -1,13 +1,16 @@
 pipeline {
     agent any
 
-    environment {
-        // Define global environment variables if needed
-        REGISTRY = 'your-docker-registry'
-        IMAGE_NAME = 'your-image-name'
-    }
-
     stages {
+        stage('Initialize') {
+            steps {
+                script {
+                    echo 'Loading deployer.groovy...'
+                    deployer = load 'deployer.groovy'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
@@ -18,12 +21,10 @@ pipeline {
         }
 
         stage('Deploy to DEV') {
-            when {
-                branch 'develop'
-            }
             steps {
                 script {
                     echo 'Deploying to DEV environment...'
+                    deployer.az_login(credentialsID)
                     // Add your DEV deployment steps here
                 }
             }
@@ -36,6 +37,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to QA environment...'
+                    deployer.az_login(credentialsID)
                     // Add your QA deployment steps here
                 }
             }
@@ -48,6 +50,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to UAT environment...'
+                    deployer.az_login(credentialsID)
                     // Add your UAT deployment steps here
                 }
             }
@@ -60,6 +63,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to TEST environment...'
+                    deployer.az_login(credentialsID)
                     // Add your TEST deployment steps here
                 }
             }
@@ -72,6 +76,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to DRA environment...'
+                    deployer.az_login(credentialsID)
                     // Add your DRA deployment steps here
                 }
             }
@@ -84,6 +89,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to PROD environment...'
+                    deployer.az_login(credentialsID)
                     // Add your PROD deployment steps here
                 }
             }
