@@ -3,7 +3,7 @@ import groovy.json.JsonSlurperClassic
 def az_login(credentialsID){
 
     try {
-        withCredentials([string(credentialsId: credentialsID, variable: 'AZURE_CREDENTIALS')]) {
+        withCredentials([string(credentialsId: azure-credentials, variable: 'AZURE_CREDENTIALS')]) {
 
             def jsonSlurper = new JsonSlurperClassic()
             def credentialsJsonObj  = jsonSlurper.parseText(AZURE_CREDENTIALS)
