@@ -18,7 +18,7 @@ pipeline {
                     }
                     inputFile = readFile(filePath)
                     parsedJson = new JsonSlurperClassic().parseText(inputFile)
-                    println "Done Parsing
+                    println "Done Parsing"
                 }
             }
         }
