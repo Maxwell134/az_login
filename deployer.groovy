@@ -1,29 +1,30 @@
 import groovy.json.JsonSlurperClassic
 
-def az_login(credentialsID) {
+def docker_login(credentialsID, env) {
     try {
-        // Access the Jenkins credentials using the provided credentialsID
-        withCredentials([string(credentialsId: credentialsID, variable: 'AZURE_CREDENTIALS')]) {
+        withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
             def jsonSlurper = new JsonSlurperClassic()
-            def credentialsJsonObj = jsonSlurper.parseText(AZURE_CREDENTIALS)
+            def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
 
-            // Ensure that `env.BRANCH_NAME` is correctly initialized for consistency
-            def envUpperCase = env.BRANCH_NAME?.toUpperCase() ?: 'DEV' // Default to 'DEV' if BRANCH_NAME is null
+            // Determine Docker credentials based on the environment
+            def envUpperCase = env.toUpperCase()
 
-            def selectedCredentials = (envUpperCase.contains('UAT') || envUpperCase.contains('TEST') || envUpperCase.equals('PROD')) ?
-                                        credentialsJsonObj['prod_credentials'] :
-                                        credentialsJsonObj['non_prod_credentials']
+            // Conditional logic to select credentials
+            def dockerCredID = (env.contains('prod') || env.contains('dra') || 
+                                env.contains('uat') || env.contains('test') || env.contains('qa')
+                                env.equalsIgnoreCase('PRD')) ? 
+                                'docker-credentials-prod' : 'docker-credentials-non-prod'
 
-            def AZURE_USERNAME = selectedCredentials['username']
-            def AZURE_PASSWORD = selectedCredentials['password']
-            // def AZURE_TENANT = selectedCredentials['tenant'] // Uncomment if tenant is needed
+            def selectedCredentials = credentialsJsonObj[dockerCredID]
 
-            // Run the Azure login command
-            sh "docker login -u ${AZURE_USERNAME} -p ${AZURE_PASSWORD}"
+            def DOCKER_USERNAME = selectedCredentials['username']
+            def DOCKER_PASSWORD = selectedCredentials['password']
 
+            // Perform Docker login
+            sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
         }
     } catch (Exception e) {
-        echo "Azure login failed: ${e.message}"
-        error("Stopping pipeline due to failed Azure login.")
+        echo "Docker login failed: ${e.message}"
+        error("Stopping pipeline due to failed Docker login.")
     }
 }
