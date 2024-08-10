@@ -4,7 +4,7 @@ def environments = pipelineConfig.aksDeploy.deployEnvironments
 
 // Retrieve the environment and credentials ID
 def env = env // Make sure to use the environment variable correctly
-def credentialsID = environments[env]?.CREDENTIALID ?: 'docker-credentials'
+def credentialsID = environments[env]?.CREDENTIALID ?: 'azure-credentials'
 // def credentialsID = environments.${environments}
 
 // Ensure that the deployer object is correctly initialized before calling docker_login
