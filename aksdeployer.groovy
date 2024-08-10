@@ -1,14 +1,14 @@
 // Load the pipeline configuration file
 def pipelineConfig = readJSON(file: 'pipeline.json')
-def environments = pipelineConfig.environments
+def environments = pipelineConfig.deployEnvironments
 
-// Determine the credentials ID based on the environment
-def getCredentialsID(env) {
-    return environments[env]?.CREDENTIALID ?: 'azure-credentials'
-}
+// Retrieve the environment and credentials ID
+def env = env // Make sure to use the environment variable correctly
+def credentialsID = environments[env]?.CREDENTIALID ?: 'docker-credentials'
 
-// Define a method to deploy based on the credentials ID
-def deploy(env) {
-    def credentialsID = getCredentialsID(env)
-    deployer.az_login(credentialsID)
-}
+// Ensure that the deployer object is correctly initialized before calling docker_login
+deployer.docker_login(credentialsID, env)
+
+// Add additional deployment logic as needed
+echo "Deploying to ${env} environment with credentials ID ${credentialsID}"
+// Example: sh "deploy_script.sh ${parsedJson}"
