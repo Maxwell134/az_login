@@ -7,6 +7,8 @@ pipeline {
                 script {
                     echo 'Loading deployer.groovy...'
                     deployer = load 'deployer.groovy'
+                    echo 'Loading aksdeployer.groovy...'
+                    aksdeployer = load 'aksdeployer.groovy'
                 }
             }
         }
@@ -21,10 +23,13 @@ pipeline {
         }
 
         stage('Deploy to DEV') {
+            when {
+                branch 'dev'
+            }
             steps {
                 script {
                     echo 'Deploying to DEV environment...'
-                    deployer.az_login(credentialsID)
+                    aksdeployer.deploy('DEV')
                     // Add your DEV deployment steps here
                 }
             }
@@ -37,7 +42,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to QA environment...'
-                    deployer.az_login(credentialsID)
+                    aksdeployer.deploy('QA')
                     // Add your QA deployment steps here
                 }
             }
@@ -50,7 +55,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to UAT environment...'
-                    deployer.az_login(credentialsID)
+                    aksdeployer.deploy('UAT')
                     // Add your UAT deployment steps here
                 }
             }
@@ -63,7 +68,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to TEST environment...'
-                    deployer.az_login(credentialsID)
+                    aksdeployer.deploy('TEST')
                     // Add your TEST deployment steps here
                 }
             }
@@ -76,7 +81,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to DRA environment...'
-                    deployer.az_login(credentialsID)
+                    aksdeployer.deploy('DRA')
                     // Add your DRA deployment steps here
                 }
             }
@@ -89,7 +94,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to PROD environment...'
-                    deployer.az_login(credentialsID)
+                    aksdeployer.deploy('PROD')
                     // Add your PROD deployment steps here
                 }
             }
