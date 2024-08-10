@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurperClassic
 pipeline {
     agent any
 
@@ -5,7 +6,10 @@ pipeline {
         stage('Initialize') {
             steps {
                 script {
-                    
+                    stageName =''
+                    inputFile = readFile("{env.WORKSPACE}/pipeline.json")
+                    parsedJson = new JsonSlurperClassic().parseText(inputFile)
+                    println "Done Parsing"
                 }
             }
         }
