@@ -27,8 +27,9 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to DEV environment...'
-                    aksdeployer.deploy('DEV')
+                    // aksdeployer.deploy('DEV')
                     // Add your DEV deployment steps here
+                    aksdeployer('dev', parsedJson)
                 }
             }
         }
@@ -38,7 +39,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to QA environment...'
-                    aksdeployer.deploy('QA')
+                    aksdeployer('qa', parsedJson)
                     // Add your QA deployment steps here
                 }
             }
@@ -49,7 +50,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to UAT environment...'
-                    aksdeployer.deploy('UAT')
+                    aksdeployer('uat', parsedJson)
                     // Add your UAT deployment steps here
                 }
             }
@@ -60,7 +61,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to TEST environment...'
-                    aksdeployer.deploy('TEST')
+                    aksdeployer('test', parsedJson)
                     // Add your TEST deployment steps here
                 }
             }
@@ -71,7 +72,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to DRA environment...'
-                    aksdeployer.deploy('DRA')
+                    aksdeployer('dra', parsedJson)
                     // Add your DRA deployment steps here
                 }
             }
@@ -82,7 +83,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to PROD environment...'
-                    aksdeployer.deploy('PROD')
+                    aksdeployer('prod', parsedJson)
                     // Add your PROD deployment steps here
                 }
             }
