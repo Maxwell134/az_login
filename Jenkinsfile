@@ -37,9 +37,12 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to DEV environment...'
+                    deployer = load 'deployer.groovy'
+                    echo 'Loading aksdeployer.groovy...'
+                    aksdeployer = load 'aksdeployer.groovy'
                     // aksdeployer.deploy('DEV')
                     // Add your DEV deployment steps here
-                    aksdeployer('dev', parsedJson)
+                    // aksdeployer('dev', parsedJson)
                 }
             }
         }
