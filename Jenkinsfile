@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application...'
-                    sh 'docker login -u 7002370412 -p 7002370412'
+                    sh 'docker login -u "7002370412" -p "7002370412"'
                     // Add your build commands here
                 }
             }
