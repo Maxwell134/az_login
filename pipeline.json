@@ -1,22 +1,24 @@
 {
-  "environments": {
-    "DEV": {
-      "CREDENTIALID": "azure-credentials"
-    },
-    "TEST": {
-      "CREDENTIALID": "azure-credentials"
-    },
-    "UAT": {
-      "CREDENTIALID": "azure-credentials"
-    },
-    "QR": {
-      "CREDENTIALID": "azure-credentials"
-    },
-    "DR": {
-      "CREDENTIALID": "azure-credentials"
-    },
-    "PROD": {
-      "CREDENTIALID": "azure-credentials"
+  "aksDeploy": {
+    "deployEnvironments": {
+      "dev": {
+        "CREDENTIALID": "azure-credentials-dev"
+      },
+      "qa": {
+        "CREDENTIALID": "azure-credentials-qa"
+      },
+      "uat": {
+        "CREDENTIALID": "azure-credentials-uat"
+      },
+      "test": {
+        "CREDENTIALID": "azure-credentials-test"
+      },
+      "dra": {
+        "CREDENTIALID": "azure-credentials-dra"
+      },
+      "prod": {
+        "CREDENTIALID": "azure-credentials-prod"
+      }
     }
   }
 }
