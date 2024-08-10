@@ -23,9 +23,7 @@ pipeline {
         }
 
         stage('Deploy to DEV') {
-            when {
-                branch 'dev'
-            }
+            
             steps {
                 script {
                     echo 'Deploying to DEV environment...'
@@ -36,9 +34,7 @@ pipeline {
         }
 
         stage('Deploy to QA') {
-            when {
-                branch 'qa'
-            }
+            
             steps {
                 script {
                     echo 'Deploying to QA environment...'
@@ -49,9 +45,7 @@ pipeline {
         }
 
         stage('Deploy to UAT') {
-            when {
-                branch 'uat'
-            }
+            
             steps {
                 script {
                     echo 'Deploying to UAT environment...'
@@ -62,9 +56,7 @@ pipeline {
         }
 
         stage('Deploy to TEST') {
-            when {
-                branch 'test'
-            }
+            
             steps {
                 script {
                     echo 'Deploying to TEST environment...'
@@ -75,9 +67,7 @@ pipeline {
         }
 
         stage('Deploy to DRA') {
-            when {
-                branch 'dra'
-            }
+            
             steps {
                 script {
                     echo 'Deploying to DRA environment...'
@@ -88,9 +78,7 @@ pipeline {
         }
 
         stage('Deploy to PROD') {
-            when {
-                branch 'main'
-            }
+            
             steps {
                 script {
                     echo 'Deploying to PROD environment...'
