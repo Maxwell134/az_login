@@ -36,6 +36,13 @@ pipeline {
             
             steps {
                 script {
+
+                    def pipelineConfig = readJSON(file: 'pipeline.json')
+                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+                    
+                    // Retrieve the environment and credentials ID
+                    // def env = env // Make sure to use the environment variable correctly
+                    def credentialsID = deployEnvironments[env]?.CREDENTIALID ?: 'azure-credentials'
                     echo 'Deploying to DEV environment...'
                     deployer = load 'deployer.groovy'
                     deployer.docker_login(credentialsID)
