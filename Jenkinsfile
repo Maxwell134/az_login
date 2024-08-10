@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
                     stageName =''
-                    inputFile = readFile("{env.WORKSPACE}/pipeline.json")
+                    inputFile = readFile("${env.WORKSPACE}/pipeline.json")
                     parsedJson = new JsonSlurperClassic().parseText(inputFile)
                     println "Done Parsing"
                 }
