@@ -6,10 +6,19 @@ pipeline {
         stage('Initialize') {
             steps {
                 script {
-                    stageName =''
-                    inputFile = readFile("${env.WORKSPACE}/pipeline.json")
+                    echo 'Loading deployer.groovy...'
+                    deployer = load 'deployer.groovy'
+                    echo 'Loading aksdeployer.groovy...'
+                    aksdeployer = load 'aksdeployer.groovy'
+
+                    // Read and parse pipeline.json
+                    def filePath = "${env.WORKSPACE}/pipeline.json"
+                    if (!fileExists(filePath)) {
+                        error "File not found: ${filePath}"
+                    }
+                    inputFile = readFile(filePath)
                     parsedJson = new JsonSlurperClassic().parseText(inputFile)
-                    println "Done Parsing"
+                    println "Done Parsing
                 }
             }
         }
