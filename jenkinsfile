@@ -1,0 +1,100 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define global environment variables if needed
+        REGISTRY = 'your-docker-registry'
+        IMAGE_NAME = 'your-image-name'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    echo 'Building the application...'
+                    // Add your build commands here
+                }
+            }
+        }
+
+        stage('Deploy to DEV') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                script {
+                    echo 'Deploying to DEV environment...'
+                    // Add your DEV deployment steps here
+                }
+            }
+        }
+
+        stage('Deploy to QA') {
+            when {
+                branch 'qa'
+            }
+            steps {
+                script {
+                    echo 'Deploying to QA environment...'
+                    // Add your QA deployment steps here
+                }
+            }
+        }
+
+        stage('Deploy to UAT') {
+            when {
+                branch 'uat'
+            }
+            steps {
+                script {
+                    echo 'Deploying to UAT environment...'
+                    // Add your UAT deployment steps here
+                }
+            }
+        }
+
+        stage('Deploy to TEST') {
+            when {
+                branch 'test'
+            }
+            steps {
+                script {
+                    echo 'Deploying to TEST environment...'
+                    // Add your TEST deployment steps here
+                }
+            }
+        }
+
+        stage('Deploy to DRA') {
+            when {
+                branch 'dra'
+            }
+            steps {
+                script {
+                    echo 'Deploying to DRA environment...'
+                    // Add your DRA deployment steps here
+                }
+            }
+        }
+
+        stage('Deploy to PROD') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    echo 'Deploying to PROD environment...'
+                    // Add your PROD deployment steps here
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                echo 'Pipeline execution completed.'
+            }
+        }
+    }
+}

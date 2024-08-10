@@ -1,0 +1,22 @@
+{
+  "environments": {
+    "DEV": {
+      "CREDENTIALID": "azure-credentials"
+    },
+    "TEST": {
+      "CREDENTIALID": "azure-credentials"
+    },
+    "UAT": {
+      "CREDENTIALID": "azure-credentials"
+    },
+    "QR": {
+      "CREDENTIALID": "azure-credentials"
+    },
+    "DR": {
+      "CREDENTIALID": "azure-credentials"
+    },
+    "PROD": {
+      "CREDENTIALID": "azure-credentials"
+    }
+  }
+}
