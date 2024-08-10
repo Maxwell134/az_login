@@ -5,10 +5,7 @@ pipeline {
         stage('Initialize') {
             steps {
                 script {
-                    echo 'Loading deployer.groovy...'
-                    deployer = load 'deployer.groovy'
-                    echo 'Loading aksdeployer.groovy...'
-                    aksdeployer = load 'aksdeployer.groovy'
+                    
                 }
             }
         }
