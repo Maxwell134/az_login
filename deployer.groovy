@@ -10,10 +10,14 @@ def docker_login(credentialsID, env) {
             def envUpperCase = env.toUpperCase()
 
             // Conditional logic to select credentials
-            def dockerCredID = (env.contains('prod') || env.contains('dra') || 
-                                env.contains('uat') || env.contains('test') || env.contains('qa')
-                                env.equalsIgnoreCase('PRD')) ? 
-                                'docker-credentials-prod' : 'docker-credentials-non-prod'
+            def dockerCredID = (env.BRANCH_NAME?.toLowerCase().contains('prod') ||
+                    env.BRANCH_NAME?.toLowerCase().contains('dra') ||
+                    env.BRANCH_NAME?.toLowerCase().contains('uat') ||
+                    env.BRANCH_NAME?.toLowerCase().contains('test') ||
+                    env.BRANCH_NAME?.toLowerCase().contains('qa') ||
+                    env.BRANCH_NAME?.toLowerCase().equals('prd')) ?
+                    'prod_credentials' : 'non_prod_credentials'
+
 
             def selectedCredentials = credentialsJsonObj[dockerCredID]
 
