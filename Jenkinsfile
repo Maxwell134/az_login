@@ -11,14 +11,14 @@ pipeline {
                     // echo 'Loading aksdeployer.groovy...'
                     // aksdeployer = load 'aksdeployer.groovy'
 
-                    // // Read and parse pipeline.json
-                    // def filePath = "${env.WORKSPACE}/pipeline.json"
-                    // if (!fileExists(filePath)) {
-                    //     error "File not found: ${filePath}"
-                    // }
-                    // inputFile = readFile(filePath)
-                    // parsedJson = new JsonSlurperClassic().parseText(inputFile)
-                    // println "Done Parsing"
+                    // Read and parse pipeline.json
+                    def filePath = "${env.WORKSPACE}/pipeline.json"
+                    if (!fileExists(filePath)) {
+                        error "File not found: ${filePath}"
+                    }
+                    inputFile = readFile(filePath)
+                    parsedJson = new JsonSlurperClassic().parseText(inputFile)
+                    println "Done Parsing"
                 }
             }
         }
@@ -27,23 +27,22 @@ pipeline {
             steps {
                 script {
                     echo 'Building the application...'
-                    sh 'docker login -u "7002370412" -p "7002370412"'
                     // Add your build commands here
                 }
             }
         }
 
-    //     stage('Deploy to DEV') {
+        stage('Deploy to DEV') {
             
-    //         steps {
-    //             script {
-    //                 echo 'Deploying to DEV environment...'
-    //                 // aksdeployer.deploy('DEV')
-    //                 // Add your DEV deployment steps here
-    //                 aksdeployer('dev', parsedJson)
-    //             }
-    //         }
-    //     }
+            steps {
+                script {
+                    echo 'Deploying to DEV environment...'
+                    // aksdeployer.deploy('DEV')
+                    // Add your DEV deployment steps here
+                    aksdeployer('dev', parsedJson)
+                }
+            }
+        }
 
     //     stage('Deploy to QA') {
             
