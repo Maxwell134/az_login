@@ -5,11 +5,11 @@ def jsonContent = new JsonSlurper().parseText(pipelineConfig)
 
     // Load the environment-specific configuration
 def deployEnvironments = jsonContent.aksDeploy.deployEnvironments
-def deploygroup = deployEnvironments[environment]
+def deploygroup = deployEnvironments.dev
 if (!deploygroup) {
     error "Environment '${environment}' not found in pipeline.json"
 }
-def credentialsID = deploygroup.CREDENTIALID
+def credentialsID = deploygroup.'CREDENTIALID'
 
     // Ensure Docker login
 docker_login(credentialsID)
