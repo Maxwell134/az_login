@@ -1,4 +1,3 @@
-import groovy.json.JsonSlurperClassic
 pipeline {
     agent any
 
@@ -12,23 +11,20 @@ pipeline {
                 script {
                     echo 'Loading pipeline configuration...'
 
-                    // def filePath = "${env.WORKSPACE}/pipeline.json"
-                    // if (!fileExists(filePath)) {
-                    //     error "File not found: ${filePath}"
+                    // Read and parse the JSON file
+                    def pipelineConfig = readJSON(file: 'pipeline.json')
 
-                    // def inputFile = readFile(filePath)
-                    // def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
-
-                    echo 'Loading aksdeployer.groovy...'
-                    def inputFile = readJSON(file: 'pipeline.json')
-                    def pipelineConfig = readJSON text: inputFile         
-
-                    // Load the environment-specific configuration
+                    // Load the environment-specific configuration dynamically
                     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments.dev
+                    def deploygroup = deployEnvironments[ENVIRONMENT]
+                    if (!deploygroup) {
+                        error "Environment '${ENVIRONMENT}' not found in pipeline.json"
+                    }
                     def credentialsID = deploygroup.'CREDENTIALID'
+
                     // Ensure the script exists and can be loaded
-                    def aksdeployerFile =  load 'aksdeployer.groovy'       
+                    echo 'Loading aksdeployer.groovy...'
+                    def aksdeployerFile = load 'aksdeployer.groovy'
 
                     // Call the deploy function
                     aksdeployerFile.docker_login(credentialsID)
