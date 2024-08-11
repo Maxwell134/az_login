@@ -4,7 +4,6 @@ def docker_login(credentialsID) {
     try {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
 
-            echo "DOCKER_CREDENTIALS: ${DOCKER_CREDENTIALS}"
             def jsonSlurper = new JsonSlurper()
             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
 
