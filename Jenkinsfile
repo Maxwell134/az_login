@@ -7,9 +7,8 @@ pipeline {
             steps {
                 script {
                     echo 'Loading deployer.groovy...'
-                    // deployer = load 'deployer.groovy'
-                    // echo 'Loading aksdeployer.groovy...'
-                    // aksdeployer = load 'aksdeployer.groovy'
+                    deployer = load 'deployer.groovy'
+                    aksdeployer = load 'aksdeployer.groovy'
 
                     // Read and parse pipeline.json
                     def filePath = "${env.WORKSPACE}/pipeline.json"
@@ -37,22 +36,21 @@ pipeline {
             steps {
                 script {
 
-                    // def pipelineConfig = readJSON(file: 'pipeline.json')
-                    // def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+                    def deployEnvironments = parsedJson.aksDeploy.deployEnvironments
+                    def deploygroup = deployEnvironments[ENVIRONMENT]
+                    if (!deploygroup) {
+                        error "Environment '${ENVIRONMENT}' not found in pipeline.json"
+                    }
+                    def credentialsID = deploygroup.CREDENTIALID
+
+                    echo "Deploying to ${ENVIRONMENT} environment with credentials ID ${credentialsID}"
                     
-                    // // Retrieve the environment and credentials ID
-                    // // def env = env // Make sure to use the environment variable correctly
-                    // def credentialsID = deployEnvironments[env]?.CREDENTIALID ?: 'azure-credentials'
-                    echo 'Deploying to DEV environment...'
-                    // deployer = load 'deployer.groovy'
-                    // deployer.docker_login(credentialsID)
-                    // echo 'Loading aksdeployer.groovy...'
-                    // aksdeployer = load 'aksdeployer.groovy'
-                    // aksdeployer.deployer.docker_login(credentialsID)
-                    
+                    // Perform Docker login and deployment
+                    deployer.docker_login(credentialsID)
+                    aksdeployer.deploy('dev', parsedJson)
                     // aksdeployer.deploy('DEV')
-                    Add your DEV deployment steps here
-                    aksdeployer('dev', parsedJson)
+                    // Add your DEV deployment steps here
+                    // aksdeployer('dev', parsedJson)
                 }
             }
         }
