@@ -3,7 +3,6 @@
     "deployEnvironments": {
       "dev": {
         "CREDENTIALID": "non_prod_credentials"
-        
       },
       "qa": {
         "CREDENTIALID": "non_prod_credentials"
@@ -18,7 +17,7 @@
         "CREDENTIALID": "non_prod_credentials"
       },
       "prod": {
-        "CREDENTIALID": "non_prod_credentials"
+        "CREDENTIALID": "prod_credentials"
       }
     }
   }
