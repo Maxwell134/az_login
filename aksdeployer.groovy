@@ -1,8 +1,10 @@
+import groovy.json.JsonSlurper
 
 def pipelineConfig = readJSON(file: 'pipeline.json')
+def jsonContent = new JsonSlurper().parseText(pipelineConfig)
 
     // Load the environment-specific configuration
-def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+def deployEnvironments = jsonContent.aksDeploy.deployEnvironments
 def deploygroup = deployEnvironments[environment]
 if (!deploygroup) {
     error "Environment '${environment}' not found in pipeline.json"
