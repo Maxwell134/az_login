@@ -32,6 +32,14 @@ pipeline {
             }
         }
 
+        stage('Test Docker Access') {
+            steps {
+                script {
+                    sh 'docker --version'
+                    sh 'docker ps'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 script {
