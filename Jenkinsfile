@@ -16,7 +16,7 @@ pipeline {
 
                     // Load the environment-specific configuration dynamically
                     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments[ENVIRONMENT]
+                    def deploygroup = deployEnvironments.${ENVIRONMENT}
                     if (!deploygroup) {
                         error "Environment '${ENVIRONMENT}' not found in pipeline.json"
                     }
@@ -24,10 +24,10 @@ pipeline {
 
                     // Ensure the script exists and can be loaded
                     echo 'Loading aksdeployer.groovy...'
-                    def aksdeployerFile = load 'aksdeployer.groovy'
+                    def aksdeployerFile = load 'deployer.groovy'
 
                     // Call the deploy function
-                    aksdeployerFile.deployToAks(ENVIRONMENT)
+                    aksdeployerFile.docker_login(credentialsID)
                 }
             }
         }
