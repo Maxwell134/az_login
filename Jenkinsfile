@@ -15,8 +15,6 @@ pipeline {
                     echo 'Loading deployer.groovy and aksdeployer.groovy...'
                     
                     // Ensure the Groovy scripts are properly loaded
-                    deployer = load 'deployer.groovy'
-                    aksdeployer = load 'aksdeployer.groovy'
                     
                     // Read and parse pipeline.json
                     def filePath = "${env.WORKSPACE}/pipeline.json"
@@ -42,18 +40,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def deployEnvironments = parsedJson.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments[ENVIRONMENT]
-                    if (!deploygroup) {
-                        error "Environment '${ENVIRONMENT}' not found in pipeline.json"
-                    }
-                    def credentialsID = deploygroup.CREDENTIALID
 
-                    echo "Deploying to ${ENVIRONMENT} environment with credentials ID ${credentialsID}"
-                    
-                    // Perform Docker login and deployment
-                    deployer.docker_login(credentialsID)
-                    aksdeployer.deploy(ENVIRONMENT, parsedJson)
+                    def inputFile = readFile(filePath)
+                    def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
+                    def aksdeployer = load 'aksdeployer.groovy'
+
+                    // Call the deploy function
+                    aksdeployer.deploy(ENVIRONMENT, pipelineConfig)
                 }
             }
         }
