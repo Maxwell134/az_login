@@ -2,22 +2,23 @@
   "aksDeploy": {
     "deployEnvironments": {
       "dev": {
-        "CREDENTIALID": "azure-credentials"
+        "CREDENTIALID": "non_prod_credentials"
+        
       },
       "qa": {
-        "CREDENTIALID": "azure-credentials"
+        "CREDENTIALID": "non_prod_credentials"
       },
       "uat": {
-        "CREDENTIALID": "azure-credentials"
+        "CREDENTIALID": "non_prod_credentials"
       },
       "test": {
-        "CREDENTIALID": "azure-credentials"
+        "CREDENTIALID": "non_prod_credentials"
       },
       "dra": {
-        "CREDENTIALID": "azure-credentials"
+        "CREDENTIALID": "non_prod_credentials"
       },
       "prod": {
-        "CREDENTIALID": "azure-credentials"
+        "CREDENTIALID": "non_prod_credentials"
       }
     }
   }
