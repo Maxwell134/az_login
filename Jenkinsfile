@@ -13,18 +13,24 @@ pipeline {
                     echo 'Loading pipeline configuration...'
 
                     def filePath = "${env.WORKSPACE}/pipeline.json"
-                    if (!fileExists(filePath)) {
-                        error "File not found: ${filePath}"
-                    }
-                    def inputFile = readFile(filePath)
-                    def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
+                    // if (!fileExists(filePath)) {
+                    //     error "File not found: ${filePath}"
+
+                    // def inputFile = readFile(filePath)
+                    // def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
 
                     echo 'Loading aksdeployer.groovy...'
+                    def inputFile = readFile(filePath)
+                    def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)            
+
+                    // Load the environment-specific configuration
+                    def deployEnvironments = jsonContent.aksDeploy.deployEnvironments
+                    def deploygroup = deployEnvironments[environment]
                     // Ensure the script exists and can be loaded
                     def aksdeployerFile =  load 'aksdeployer.groovy'       
 
                     // Call the deploy function
-                    aksdeployer.docker_login(credentialsID)
+                    aksdeployerFile.docker_login(credentialsID)
                 }
             }
         }
