@@ -21,14 +21,7 @@ pipeline {
 
                     echo 'Loading aksdeployer.groovy...'
                     // Ensure the script exists and can be loaded
-                    def aksdeployerFile =  load 'aksdeployer.groovy'
-                    if (!fileExists(aksdeployerFile)) {
-                        error "Script file not found: ${aksdeployerFile}"
-                    }
-                    def aksdeployer = load(aksdeployerFile)
-                    if (!aksdeployer) {
-                        error "Failed to load aksdeployer.groovy"
-                    }
+                    def aksdeployerFile =  load 'aksdeployer.groovy'       
 
                     // Call the deploy function
                     aksdeployer.deploy(ENVIRONMENT, pipelineConfig)
