@@ -1,4 +1,6 @@
 
+def pipelineConfig = readJSON(file: 'pipeline.json')
+
     // Load the environment-specific configuration
 def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
 def deploygroup = deployEnvironments[environment]
