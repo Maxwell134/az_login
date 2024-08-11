@@ -19,3 +19,6 @@ def docker_login(credentialsID) {
         error("Stopping pipeline due to failed Docker login.")
     }
 }
+
+
+
