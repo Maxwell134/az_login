@@ -1,10 +1,9 @@
 import groovy.json.JsonSlurperClassic
-
 pipeline {
     agent any
 
     environment {
-        ENVIRONMENT = 'dev'  // You can set this dynamically or via pipeline parameters
+        ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
     }
 
     stages {
@@ -20,8 +19,16 @@ pipeline {
                     def inputFile = readFile(filePath)
                     def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
 
-                    // Load aksdeployer.groovy
-                    def aksdeployer = load 'aksdeployer.groovy'
+                    echo 'Loading aksdeployer.groovy...'
+                    // Ensure the script exists and can be loaded
+                    def aksdeployerFile = 'aksdeployer.groovy'
+                    if (!fileExists(aksdeployerFile)) {
+                        error "Script file not found: ${aksdeployerFile}"
+                    }
+                    def aksdeployer = load(aksdeployerFile)
+                    if (!aksdeployer) {
+                        error "Failed to load aksdeployer.groovy"
+                    }
 
                     // Call the deploy function
                     aksdeployer.deploy(ENVIRONMENT, pipelineConfig)
