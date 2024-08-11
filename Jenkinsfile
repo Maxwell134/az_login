@@ -12,7 +12,7 @@ pipeline {
                 script {
                     echo 'Loading pipeline configuration...'
 
-                    def filePath = "${env.WORKSPACE}/pipeline.json"
+                    // def filePath = "${env.WORKSPACE}/pipeline.json"
                     // if (!fileExists(filePath)) {
                     //     error "File not found: ${filePath}"
 
@@ -20,11 +20,11 @@ pipeline {
                     // def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
 
                     echo 'Loading aksdeployer.groovy...'
-                    def inputFile = readFile(filePath)
-                    def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)            
+                    def inputFile = readJSON(file: 'pipeline.json')
+                    def pipelineConfig = readJSON text: inputFile         
 
                     // Load the environment-specific configuration
-                    def deployEnvironments = jsonContent.aksDeploy.deployEnvironments
+                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
                     def deploygroup = deployEnvironments.dev
                     def credentialsID = deploygroup.'CREDENTIALID'
                     // Ensure the script exists and can be loaded
