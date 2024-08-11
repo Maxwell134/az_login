@@ -25,7 +25,8 @@ pipeline {
 
                     // Load the environment-specific configuration
                     def deployEnvironments = jsonContent.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments[environment]
+                    def deploygroup = deployEnvironments.dev
+                    def credentialsID = deploygroup.'CREDENTIALID'
                     // Ensure the script exists and can be loaded
                     def aksdeployerFile =  load 'aksdeployer.groovy'       
 
