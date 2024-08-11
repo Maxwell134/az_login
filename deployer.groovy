@@ -1,22 +1,19 @@
-import groovy.json.JsonSlurperClassic
+import groovy.json.JsonSlurper
 
 def docker_login(credentialsID) {
     try {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
 
             echo "DOCKER_CREDENTIALS: ${DOCKER_CREDENTIALS}"
-            def jsonSlurper = new JsonSlurperClassic()
+            def jsonSlurper = new JsonSlurper()
             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
 
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
 
-            // Perform Docker login
-            // sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-            sh """
-            echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
-        """
-            
+            // Perform Docker login securely
+            sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+
         }
     } catch (Exception e) {
         echo "Docker login failed: ${e.message}"
@@ -25,4 +22,3 @@ def docker_login(credentialsID) {
 }
 
 return this
-
