@@ -21,7 +21,7 @@ pipeline {
 
                     echo 'Loading aksdeployer.groovy...'
                     // Ensure the script exists and can be loaded
-                    def aksdeployerFile = 'aksdeployer.groovy'
+                    def aksdeployerFile =  load 'aksdeployer.groovy'
                     if (!fileExists(aksdeployerFile)) {
                         error "Script file not found: ${aksdeployerFile}"
                     }
