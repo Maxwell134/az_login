@@ -37,22 +37,22 @@ pipeline {
             steps {
                 script {
 
-                    def pipelineConfig = readJSON(file: 'pipeline.json')
-                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+                    // def pipelineConfig = readJSON(file: 'pipeline.json')
+                    // def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
                     
-                    // Retrieve the environment and credentials ID
-                    // def env = env // Make sure to use the environment variable correctly
-                    def credentialsID = deployEnvironments[env]?.CREDENTIALID ?: 'azure-credentials'
+                    // // Retrieve the environment and credentials ID
+                    // // def env = env // Make sure to use the environment variable correctly
+                    // def credentialsID = deployEnvironments[env]?.CREDENTIALID ?: 'azure-credentials'
                     echo 'Deploying to DEV environment...'
-                    deployer = load 'deployer.groovy'
-                    deployer.docker_login(credentialsID)
-                    echo 'Loading aksdeployer.groovy...'
-                    aksdeployer = load 'aksdeployer.groovy'
-                    aksdeployer.deployer.docker_login(credentialsID)
+                    // deployer = load 'deployer.groovy'
+                    // deployer.docker_login(credentialsID)
+                    // echo 'Loading aksdeployer.groovy...'
+                    // aksdeployer = load 'aksdeployer.groovy'
+                    // aksdeployer.deployer.docker_login(credentialsID)
                     
                     // aksdeployer.deploy('DEV')
-                    // Add your DEV deployment steps here
-                    // aksdeployer('dev', parsedJson)
+                    Add your DEV deployment steps here
+                    aksdeployer('dev', parsedJson)
                 }
             }
         }
