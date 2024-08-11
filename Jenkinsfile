@@ -1,29 +1,28 @@
-import groovy.json.JsonSlurperClassic
-
 pipeline {
     agent any
 
     environment {
-        // Define a default environment variable if needed
-        ENVIRONMENT = 'dev'
+        ENVIRONMENT = 'dev'  // You can set this dynamically or via pipeline parameters
     }
 
     stages {
         stage('Initialize') {
             steps {
                 script {
-                    echo 'Loading deployer.groovy and aksdeployer.groovy...'
-                    
-                    // Ensure the Groovy scripts are properly loaded
-                    
-                    // Read and parse pipeline.json
+                    echo 'Loading pipeline configuration...'
+
                     def filePath = "${env.WORKSPACE}/pipeline.json"
                     if (!fileExists(filePath)) {
                         error "File not found: ${filePath}"
                     }
                     def inputFile = readFile(filePath)
-                    def parsedJson = new JsonSlurperClassic().parseText(inputFile)
-                    echo "Done Parsing"
+                    def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
+
+                    // Load aksdeployer.groovy
+                    def aksdeployer = load 'aksdeployer.groovy'
+
+                    // Call the deploy function
+                    aksdeployer.deploy(ENVIRONMENT, pipelineConfig)
                 }
             }
         }
@@ -40,13 +39,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-
-                    def inputFile = readFile(filePath)
-                    def pipelineConfig = new JsonSlurperClassic().parseText(inputFile)
-                    def aksdeployer = load 'aksdeployer.groovy'
-
-                    // Call the deploy function
-                    aksdeployer.deploy(ENVIRONMENT, pipelineConfig)
+                    echo "Deploying to ${ENVIRONMENT} environment..."
+                    // Deployment steps are handled in the 'Initialize' stage
                 }
             }
         }
