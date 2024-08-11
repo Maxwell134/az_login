@@ -13,17 +13,18 @@ pipeline {
             steps {
                 script {
                     echo 'Loading deployer.groovy and aksdeployer.groovy...'
-                    // Load the Groovy scripts
+                    
+                    // Ensure the Groovy scripts are properly loaded
                     deployer = load 'deployer.groovy'
                     aksdeployer = load 'aksdeployer.groovy'
-
+                    
                     // Read and parse pipeline.json
                     def filePath = "${env.WORKSPACE}/pipeline.json"
                     if (!fileExists(filePath)) {
                         error "File not found: ${filePath}"
                     }
-                    inputFile = readFile(filePath)
-                    parsedJson = new JsonSlurperClassic().parseText(inputFile)
+                    def inputFile = readFile(filePath)
+                    def parsedJson = new JsonSlurperClassic().parseText(inputFile)
                     echo "Done Parsing"
                 }
             }
