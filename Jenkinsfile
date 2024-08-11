@@ -1,12 +1,19 @@
 import groovy.json.JsonSlurperClassic
+
 pipeline {
     agent any
+
+    environment {
+        // Define a default environment variable if needed
+        ENVIRONMENT = 'dev'
+    }
 
     stages {
         stage('Initialize') {
             steps {
                 script {
-                    echo 'Loading deployer.groovy...'
+                    echo 'Loading deployer.groovy and aksdeployer.groovy...'
+                    // Load the Groovy scripts
                     deployer = load 'deployer.groovy'
                     aksdeployer = load 'aksdeployer.groovy'
 
@@ -17,7 +24,7 @@ pipeline {
                     }
                     inputFile = readFile(filePath)
                     parsedJson = new JsonSlurperClassic().parseText(inputFile)
-                    println "Done Parsing"
+                    echo "Done Parsing"
                 }
             }
         }
@@ -31,11 +38,9 @@ pipeline {
             }
         }
 
-        stage('Deploy to DEV') {
-            
+        stage('Deploy') {
             steps {
                 script {
-
                     def deployEnvironments = parsedJson.aksDeploy.deployEnvironments
                     def deploygroup = deployEnvironments[ENVIRONMENT]
                     if (!deploygroup) {
@@ -47,75 +52,15 @@ pipeline {
                     
                     // Perform Docker login and deployment
                     deployer.docker_login(credentialsID)
-                    aksdeployer.deploy('dev', parsedJson)
-                    // aksdeployer.deploy('DEV')
-                    // Add your DEV deployment steps here
-                    // aksdeployer('dev', parsedJson)
+                    aksdeployer.deploy(ENVIRONMENT, parsedJson)
                 }
             }
         }
+    }
 
-    //     stage('Deploy to QA') {
-            
-    //         steps {
-    //             script {
-    //                 echo 'Deploying to QA environment...'
-    //                 aksdeployer('qa', parsedJson)
-    //                 // Add your QA deployment steps here
-    //             }
-    //         }
-    //     }
-
-    //     stage('Deploy to UAT') {
-            
-    //         steps {
-    //             script {
-    //                 echo 'Deploying to UAT environment...'
-    //                 aksdeployer('uat', parsedJson)
-    //                 // Add your UAT deployment steps here
-    //             }
-    //         }
-    //     }
-
-    //     stage('Deploy to TEST') {
-            
-    //         steps {
-    //             script {
-    //                 echo 'Deploying to TEST environment...'
-    //                 aksdeployer('test', parsedJson)
-    //                 // Add your TEST deployment steps here
-    //             }
-    //         }
-    //     }
-
-    //     stage('Deploy to DRA') {
-            
-    //         steps {
-    //             script {
-    //                 echo 'Deploying to DRA environment...'
-    //                 aksdeployer('dra', parsedJson)
-    //                 // Add your DRA deployment steps here
-    //             }
-    //         }
-    //     }
-
-    //     stage('Deploy to PROD') {
-            
-    //         steps {
-    //             script {
-    //                 echo 'Deploying to PROD environment...'
-    //                 aksdeployer('prod', parsedJson)
-    //                 // Add your PROD deployment steps here
-    //             }
-    //         }
-    //     }
-    // }
-
-    // post {
-    //     always {
-    //         script {
-    //             echo 'Pipeline execution completed.'
-    //         }
-    //     }
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
     }
 }
