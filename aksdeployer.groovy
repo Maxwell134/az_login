@@ -1,16 +1,18 @@
-// Load the pipeline configuration file
-def pipelineConfig = readJSON(file: 'pipeline.json')
-def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+def deploy(environment, pipelineConfig) {
+    // Load the environment-specific configuration
+    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+    def deploygroup = deployEnvironments[environment]
+    if (!deploygroup) {
+        error "Environment '${environment}' not found in pipeline.json"
+    }
+    def credentialsID = deploygroup.CREDENTIALID
 
-// Retrieve the environment and credentials ID
-// def env = env // Make sure to use the environment variable correctly
-// def credentialsID = deployEnvironments[env]?.CREDENTIALID ?: 'azure-credentials'
-def deploygroup = deployEnvironments.${environments}
-def credentialsID =deploygroup.CREDENTIALID
+    // Ensure Docker login
+    docker_login(credentialsID)
 
-// Ensure that the deployer object is correctly initialized before calling docker_login
-deployer.docker_login(credentialsID)
+    // Add your deployment logic here
+    echo "Deploying to ${environment} environment with credentials ID ${credentialsID}"
 
-// Add additional deployment logic as needed
-echo "Deploying to ${environment} environment with credentials ID ${credentialsID}"
-// Example: sh "deploy_script.sh ${parsedJson}"
+    // Example of deployment script
+    // sh "deploy_script.sh ${environment}"
+}
