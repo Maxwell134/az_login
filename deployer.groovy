@@ -12,7 +12,7 @@ def docker_login(credentialsID) {
 
             // Perform Docker login securely
           
-            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+            sh 'docker login -u $DOCKER_USERNAME --password-stdin'
         
 
             // Confirm login success
