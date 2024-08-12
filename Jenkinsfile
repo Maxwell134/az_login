@@ -37,7 +37,7 @@ pipeline {
                 script {
                     // Ensure Docker is accessible
                     sh 'docker --version'
-                    
+                    sh 'sudo docker ps'
                 }
             }
         }
