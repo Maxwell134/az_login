@@ -12,7 +12,9 @@ def docker_login(credentialsID) {
 
             // Perform Docker login securely
             sh """
-                echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+                set-x
+                echo ${DOCKER_PASSWORD} | docker login -u 7002370412 -p 7002370412
+                set +x
             """
 
         }
