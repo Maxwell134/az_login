@@ -10,15 +10,14 @@ def docker_login(credentialsID) {
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
 
-           
             // Perform Docker login securely
             sh """
-               
-            echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin
-
-                
+                echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin
             """
-           
+
+            // Confirm login success
+            sh 'docker info'
+
         }
     } catch (Exception e) {
         echo "Docker login failed: ${e.message}"
