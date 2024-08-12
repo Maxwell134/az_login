@@ -11,9 +11,9 @@ def docker_login(credentialsID) {
             def DOCKER_PASSWORD = credentialsJsonObj['password']
 
             // Perform Docker login securely
-            sh """
-                echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin
-            """
+          
+            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+        
 
             // Confirm login success
             sh 'docker info'
