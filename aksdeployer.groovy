@@ -11,12 +11,14 @@ def call(env, pipelineConfig) {
     def credentialsID = deploygroup.CREDENTIALID
 
     // Load the deployer.groovy script
-    // def dockerUtils = load 'deployer.groovy'
+    def deployerPath = "${env.workspace}/deployer.groovy"
+    // Load the deployer.groovy script
+    def dockerUtils = load deployerPath
 
-    // // Check if dockerUtils was loaded successfully
-    // if (dockerUtils == null) {
-    //     error "Failed to load deployer.groovy"
-    // }
+    // Check if dockerUtils was loaded successfully
+    if (dockerUtils == null) {
+        error "Failed to load deployer.groovy"
+    }
 
     // Call the docker_login method and get the result
     def loginResult = deployer.docker_login(credentialsID)
