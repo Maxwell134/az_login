@@ -2,7 +2,7 @@ import groovy.json.JsonSlurper
 
 def docker_login() {
     try {
-        withCredentials([string(credentialsId: non_prod_credentials, variable: 'DOCKER_CREDENTIALS')]) {
+        withCredentials([string(credentialsId: 'non_prod_credentials', variable: 'DOCKER_CREDENTIALS')]) {
 
             def jsonSlurper = new JsonSlurper()
             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
