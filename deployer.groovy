@@ -7,12 +7,12 @@ def docker_login(credentialsID) {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
             def jsonSlurper = new JsonSlurper()
             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
-            echo " '${credentialsJson}'"
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
 
             // Debugging: Print username and password (be careful with sensitive data)
             echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
+            echo "Raw credentials: '${DOCKER_CREDENTIALS}'"
 
             // Docker login command using --password-stdin
             sh '''
