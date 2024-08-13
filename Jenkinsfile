@@ -1,4 +1,4 @@
-import groovy.json.JsonSlurper
+// import groovy.json.JsonSlurper
 
 // pipeline {
 //     agent any
@@ -28,6 +28,8 @@ import groovy.json.JsonSlurper
 //     }
 // }
 
+import groovy.json.JsonSlurper
+
 pipeline {
     agent any
 
@@ -46,10 +48,12 @@ pipeline {
                     // Load and parse the pipeline configuration from the JSON file
                     def pipelineConfig = readFile("${env.WORKSPACE}/pipeline.json")
                     def parser = new JsonSlurper().parseText(pipelineConfig)
-                    
+
+                    // Convert LazyMap to HashMap to avoid serialization issues
+                    def deployEnvironments = parser.aksDeploy.deployEnvironments as HashMap
+
                     // Extract the credentialsID for the desired environment (e.g., 'dev')
-                    def deployEnvironments = parser.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments['dev']
+                    def deploygroup = deployEnvironments['dev'] as HashMap
                     def credentialsID = deploygroup.CREDENTIALID
 
                     // Check if credentialsID was found
