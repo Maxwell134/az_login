@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    // environment {
-    //     ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
-    // }
+    environment {
+        ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
+    }
 
     stages {
         stage('Initialize') {
@@ -14,24 +14,22 @@ pipeline {
                     // Read and parse the JSON file
                     def pipelineConfig = readJSON(file: 'pipeline.json')
                     
-                    // // Load the environment-specific configuration dynamically
+                    // Load the environment-specific configuration dynamically
                     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def environment = dev
-                    def deployGroup = deployEnvironments.'${environment}'
+                    def environment = ENVIRONMENT  // Use environment variable
+                    def deployGroup = deployEnvironments[environment]
                     if (!deployGroup) {
                         error "Environment '${environment}' not found in pipeline.json"
                     }
                     def credentialsID = deployGroup.CREDENTIALID
 
                     // Ensure the script exists and can be loaded
-                    echo 'Loading deployer.groovy...'
-                    // def aksDeployerFile = load 'deployer.groovy'
-                    def aksDeployerFile = load 'aksdeployer.groovy'
+                    echo 'Loading aksdeployer.groovy...'
+                    def aksDeployer = load 'aksdeployer.groovy'
 
                     // Call the deploy function
-                    // aksDeployerFile.docker_login(credentialsID)
                     echo "'${environment}' found in pipeline.json"
-                     aksDeployerFile.deployToAks(environment)
+                    aksDeployer.deployToAks(environment)
                 }
             }
         }
