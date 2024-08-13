@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    environment {
-        ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
-    }
+    // environment {
+    //     ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
+    // }
 
     stages {
         stage('Initialize') {
@@ -16,7 +16,8 @@ pipeline {
                     
                     // // Load the environment-specific configuration dynamically
                     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def deployGroup = deployEnvironments[ENVIRONMENT]
+                    def environment = 'dev'
+                    def deployGroup = deployEnvironments.'${environment}'
                     if (!deployGroup) {
                         error "Environment '${ENVIRONMENT}' not found in pipeline.json"
                     }
@@ -29,6 +30,7 @@ pipeline {
 
                     // Call the deploy function
                     // aksDeployerFile.docker_login(credentialsID)
+                    echo '${environment}' found in pipeline.json"
                      aksDeployerFile.deployToAks(environment)
                 }
             }
