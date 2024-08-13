@@ -11,9 +11,9 @@ def call(env, pipelineConfig) {
     def credentialsID = deploygroup.CREDENTIALID
 
     // Load the deployer.groovy script
-    def deployerPath = "${env.workspace}/deployer.groovy"
+    
     // Load the deployer.groovy script
-    def dockerUtils = load deployerPath
+    def dockerUtils = load 'deployer.groovy'
 
     // Check if dockerUtils was loaded successfully
     if (dockerUtils == null) {
