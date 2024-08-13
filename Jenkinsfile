@@ -27,7 +27,7 @@ pipeline {
                     def aksdeployerFile = load 'deployer.groovy'
 
                     // Call the deploy function
-                    aksdeployerFile.docker_login(env, credentialsID)
+                    aksdeployerFile.docker_login(credentialsID)
                 }
             }
         }
