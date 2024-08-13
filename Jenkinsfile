@@ -18,6 +18,14 @@ pipeline {
 
                     // Load the pipeline configuration from the JSON file
                     def pipelineConfig = readJSON(file: 'pipeline.json')
+                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+                    def deploygroup = deployEnvironments.'dev'
+                
+                    if (!deploygroup) {
+                        error "Environment '${env}' not found in the pipeline configuration."
+                    }
+
+                        def credentialsID = deploygroup.CREDENTIALID
                         dockerUtils.docker_login(credentialsID)
 
                     // Deploy to the desired environment (e.g., 'dev')
