@@ -24,10 +24,12 @@ pipeline {
 
                     // Ensure the script exists and can be loaded
                     echo 'Loading deployer.groovy...'
-                    def aksDeployerFile = load 'deployer.groovy'
+                    // def aksDeployerFile = load 'deployer.groovy'
+                    def aksDeployerFile = load 'aksdeployer.groovy'
 
                     // Call the deploy function
-                    aksDeployerFile.docker_login(credentialsID)
+                    // aksDeployerFile.docker_login(credentialsID)
+                     aksDeployerFile.deployToAks(environment)
                 }
             }
         }
