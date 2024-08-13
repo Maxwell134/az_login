@@ -16,7 +16,7 @@ def docker_login(credentialsID) {
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             set -x
             # Confirm login success
-            docker info
+            
             """
             sh azCmd
         }
