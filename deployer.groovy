@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurper
 
-def docker_login(env, credentialsID) {
+def docker_login(credentialsID) {
     try {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
 
