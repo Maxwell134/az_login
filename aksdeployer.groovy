@@ -1,4 +1,3 @@
-
 import groovy.json.JsonSlurper
 
 def deployToAks(environment) {
@@ -12,7 +11,10 @@ def deployToAks(environment) {
         error "Environment '${environment}' not found in pipeline.json"
     }
 
-    def credentialsID = deploygroup.'CREDENTIALID'
+    def credentialsID = deploygroup.CREDENTIALID
+
+    // Load the deployer script
+    def deployer = load 'deployer.groovy'
 
     // Ensure Docker login
     deployer.docker_login(credentialsID)
@@ -24,18 +26,4 @@ def deployToAks(environment) {
     // sh "deploy_script.sh ${environment}"
 }
 
-return this 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+return this
