@@ -18,7 +18,7 @@ def call(env, pipelineConfig) {
     // }
 
     // Call the docker_login method and get the result
-    def loginResult = dockerUtils.docker_login(credentialsID)
+    dockerUtils.docker_login(credentialsID)
 
     // Check the result of Docker login
     // if (loginResult.success) {
@@ -35,4 +35,4 @@ def call(env, pipelineConfig) {
     // sh "deploy_script.sh ${env}"
 }
 
-// return this
+return this
