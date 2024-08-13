@@ -58,7 +58,7 @@ pipeline {
                     def env = 'dev'
 
                     // Load the pipeline configuration from the JSON file
-                    def inputFile = readFile("${env.WORKSPACE}/pipeline.json")
+                    def inputFile = readFile("pipeline.json")
                     def parsedJson = new JsonSlurperClassic().parseText(inputFile)
                     echo "JSON object parsed successfully."
 
