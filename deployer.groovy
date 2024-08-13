@@ -10,13 +10,12 @@ def docker_login(credentialsID) {
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
 
-            // Perform Docker login securely
+            // Perform Docker login securely using echo to pass the password
             azCmd = """
             set +x
-            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-        
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             set -x
-            // Confirm login success
+            # Confirm login success
             docker info
             """
             sh azCmd
