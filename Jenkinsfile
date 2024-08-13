@@ -1,71 +1,20 @@
 pipeline {
     agent any
 
-    environment {
-        ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
-    }
-
     stages {
-        stage('Initialize') {
+        stage('Deploy to AKS') {
             steps {
                 script {
-                    echo 'Loading pipeline configuration...'
+                    // Load the aksdeployer.groovy script
+                    def aksDeploy = load 'aksdeployer.groovy'
 
-                    // Read and parse the JSON file
+                    // Load the pipeline configuration from the JSON file
                     def pipelineConfig = readJSON(file: 'pipeline.json')
-                    
-                    // Load the environment-specific configuration dynamically
-                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def environment = ENVIRONMENT  // Use environment variable
-                    def deployGroup = deployEnvironments[environment]
-                    if (!deployGroup) {
-                        error "Environment '${environment}' not found in pipeline.json"
-                    }
-                    def credentialsID = deployGroup.CREDENTIALID
 
-                    // Load the aksdeployet.groovy script
-                    echo 'Loading aksdeployet.groovy...'
-                    def aksDeployer = load 'aksdeployet.groovy'
-
-                    // Call the deploy function
-                    echo "'${environment}' found in pipeline.json"
-                    aksDeployer.deployToAks(environment)
+                    // Deploy to the desired environment (e.g., 'dev')
+                    aksDeploy('dev', pipelineConfig)
                 }
             }
-        }
-
-        stage('Test Docker Access') {
-            steps {
-                script {
-                    // Ensure Docker is accessible
-                    sh 'docker --version'
-                    sh 'sudo docker ps'
-                }
-            }
-        }
-
-        stage('Build') {
-            steps {
-                script {
-                    echo 'Building the application...'
-                    // Add your build commands here
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    echo "Deploying to ${ENVIRONMENT} environment..."
-                    // Deployment steps are handled in the 'Initialize' stage
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline execution completed.'
         }
     }
 }
