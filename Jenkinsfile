@@ -42,10 +42,10 @@ pipeline {
                     }
 
                     // Load the pipeline configuration from the JSON file
-                    def pipelineConfig = readJSON(file: 'pipeline.json')
-
+                    def pipelineConfig = readFile("${env.workspace}/pipeline.json")
+                    def parser = new JsonSlurper().parseText(pipelineConfig)
                     // Extract the credentialsID for the desired environment (e.g., 'dev')
-                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+                    def deployEnvironments = parser.aksDeploy.deployEnvironments
                     def deploygroup = deployEnvironments['dev']
                     def credentialsID = deploygroup.CREDENTIALID
 
