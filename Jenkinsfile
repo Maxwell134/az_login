@@ -66,7 +66,7 @@ pipeline {
                     echo "Environment '${env}' found in the pipeline configuration."
                     
                     // Call the aksDeploy script
-                    aksDeploy.call(env)
+                    aksDeploy.call()
                 }
             }
         }
