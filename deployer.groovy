@@ -14,7 +14,7 @@ def docker_login(credentialsID) {
             echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
 
             // Docker login command using --password-stdin
-            sh script: "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin", returnStdout: true
+            sh script: 'echo ${DOCKER_PASSWORD} | docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"', returnStdout: true
 
             result.success = true
             result.message = "Docker login successful."
