@@ -13,7 +13,7 @@ def call(env, pipelineConfig) {
     def dockerUtils = load 'deployer.groovy'
 
     // Call the docker_login method and get the result
-    def loginResult = deployer.docker_login(credentialsID)
+    def loginResult = dockerUtils.docker_login(credentialsID)
 
     // Check the result of Docker login
     if (loginResult.success) {
