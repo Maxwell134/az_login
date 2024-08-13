@@ -11,7 +11,7 @@ pipeline {
                      // def dockerUtils = load 'deployer.groovy'
                     def aksDeploy = load 'aksdeployer.groovy'
 
-                    Check if aksDeploy was loaded successfully
+                    // Check if aksDeploy was loaded successfully
                     if (aksDeploy == null) {
                         error "Failed to load aksdeployer.groovy"
                     }
