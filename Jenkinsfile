@@ -35,7 +35,7 @@
 //         }
 //     }
 // }
-import groovy.json.JsonSlurperClassic
+import groovy.json.JsonSlurper
 pipeline {
     agent any
 
@@ -47,6 +47,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
+
+                    parserJson = ""
                     // Define your pipeline configuration
                     def pipelineConfig = readFile('pipeline.json')  // Adjust this as needed
                     def parserJson = new JsonSlurper().parseText(pipelineConfig)
