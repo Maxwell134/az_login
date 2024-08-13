@@ -28,7 +28,7 @@ def deployToAks(environment) {
 
     // Load the environment-specific configuration
     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-    def deploygroup = deployEnvironments[environment]
+    def deploygroup = deployEnvironments.'${environment}'
     if (!deploygroup) {
         error "Environment '${environment}' not found in pipeline.json"
     }
@@ -45,7 +45,7 @@ def deployToAks(environment) {
     // sh "deploy_script.sh ${environment}"
 }
 
-
+return this 
 
 
 
