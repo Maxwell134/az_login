@@ -1,15 +1,17 @@
+import groovy.json.JsonSlurper
+
 def docker_login(credentialsID) {
     def result = [:]  // Create a map to store result status and message
 
     try {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
-            def jsonSlurper = new groovy.json.JsonSlurper()
+            def jsonSlurper = new JsonSlurper()
             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
 
-            println "DOCKER_USERNAME: ${DOCKER_USERNAME}"  // Debugging: Print username
-            println "DOCKER_PASSWORD: ${DOCKER_PASSWORD}"  // Debugging: Print password
+            // Debugging: Print username and password (be careful with sensitive data)
+            echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
 
             // Docker login command using --password-stdin
             sh '''
