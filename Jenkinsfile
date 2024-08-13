@@ -35,22 +35,24 @@ pipeline {
         stage('Deploy to AKS') {
             steps {
                 script {
-                    // Load the deployer.groovy script
-                    def dockerUtils = load "${env.workspace}/deployer.groovy"
+                    // Load the deployer.groovy script from the workspace
+                    def dockerUtils = load "${env.WORKSPACE}/deployer.groovy"
 
                     // Check if dockerUtils was loaded successfully
                     if (dockerUtils == null) {
                         error "Failed to load deployer.groovy"
                     }
 
-                    // Load the pipeline configuration from the JSON file
-                    def pipelineConfig = readFile("${env.workspace}/pipeline.json")
+                    // Load and parse the pipeline configuration from the JSON file
+                    def pipelineConfig = readFile("${env.WORKSPACE}/pipeline.json")
                     def parser = new JsonSlurper().parseText(pipelineConfig)
+                    
                     // Extract the credentialsID for the desired environment (e.g., 'dev')
                     def deployEnvironments = parser.aksDeploy.deployEnvironments
                     def deploygroup = deployEnvironments['dev']
                     def credentialsID = deploygroup.CREDENTIALID
 
+                    // Check if credentialsID was found
                     if (!credentialsID) {
                         error "Credentials ID not found for environment 'dev'"
                     }
@@ -76,23 +78,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
