@@ -30,7 +30,7 @@ pipeline {
                         // dockerUtils.docker_login(credentialsID)
 
                     // Deploy to the desired environment (e.g., 'dev')
-                    aksDeploy(env, pipelineConfig)
+                    aksDeploy.call(env, pipelineConfig)
                 }
             }
         }
