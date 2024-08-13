@@ -8,8 +8,8 @@ pipeline {
             steps {
                 script {
                     // Load the aksdeployer.groovy script
-                     def dockerUtils = load 'deployer.groovy'
-                    // def aksDeploy = load 'aksdeployer.groovy'
+                     // def dockerUtils = load 'deployer.groovy'
+                    def aksDeploy = load 'aksdeployer.groovy'
 
                     // Check if aksDeploy was loaded successfully
                     // if (aksDeploy == null) {
@@ -27,10 +27,10 @@ pipeline {
 
                         def credentialsID = deploygroup.CREDENTIALID
                         echo "Environment '${env}' found in the pipeline configuration."
-                        dockerUtils.docker_login(credentialsID)
+                        // dockerUtils.docker_login(credentialsID)
 
                     // Deploy to the desired environment (e.g., 'dev')
-                    // aksDeploy('dev', pipelineConfig)
+                    aksDeploy(env, pipelineConfig)
                 }
             }
         }
