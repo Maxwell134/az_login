@@ -42,15 +42,15 @@
 
 
 
-def call(env) {
+def call() {
     // Load the environment-specific configuration
     def pipelineConfig = readJSON(file: 'pipeline.json')
     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
     def deploygroup = deployEnvironments.'dev'
 
-    if (!deploygroup) {
-        error "Environment '${env}' not found in the pipeline configuration."
-    }
+    // if (!deploygroup) {
+    //     error "Environment '${env}' not found in the pipeline configuration."
+    // }
 
     def credentialsID = deploygroup.CREDENTIALID
 
@@ -74,7 +74,7 @@ def call(env) {
     }
 
     // Add your deployment logic here
-    echo "Deploying to ${env} environment with credentials ID ${credentialsID}"
+    // echo "Deploying to ${env} environment with credentials ID ${credentialsID}"
 
     // Example of deployment script
     // sh "deploy_script.sh ${env}"
