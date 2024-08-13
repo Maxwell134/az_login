@@ -15,9 +15,8 @@ def docker_login(credentialsID) {
             // echo "Raw credentials: '${DOCKER_CREDENTIALS}'"
 
             // Docker login command using --password-stdin
-            sh '''
-            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-            '''
+            
+           sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"'      
 
             result.success = true
             result.message = "Docker login successful."
