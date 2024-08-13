@@ -42,8 +42,9 @@
 
 
 
-def call(env, pipelineConfig) {
+def call(env) {
     // Load the environment-specific configuration
+    def pipelineConfig = readJSON(file: 'pipeline.json')
     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
     def deploygroup = deployEnvironments[env]
 
