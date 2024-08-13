@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     // Define your pipeline configuration
-                    def pipelineConfig = readJSON(file: 'pipelineConfig.json')  // Adjust this as needed
+                    def pipelineConfig = readJSON(file: 'pipeline.json')  // Adjust this as needed
 
                     // Call the Groovy method with environment and pipeline configuration
                     def env = 'dev'  // Or any environment you need
