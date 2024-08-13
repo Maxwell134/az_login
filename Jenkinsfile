@@ -36,7 +36,7 @@
 //         }
 //     }
 // }
-
+import groovy.json.JsonSlurper
 pipeline {
     agent any
 
@@ -45,16 +45,18 @@ pipeline {
             steps {
                 script {
                     // Load the aksdeployer.groovy script
-                    def aksDeploy = load 'aksdeployer.groovy'
+                    // def aksDeploy = load 'aksdeployer.groovy'
 
                     // Check if aksDeploy was loaded successfully
-                    if (aksDeploy == null) {
-                        error "Failed to load aksdeployer.groovy"
-                    }
+                    // if (aksDeploy == null) {
+                    //     error "Failed to load aksdeployer.groovy"
+                    // }
 
-                    def env = 'dev'
+                    // def env = 'dev'
                     // Load the pipeline configuration from the JSON file
-                    // def pipelineConfig = readJSON(file: 'pipeline.json')
+                     inputFile = readFile("${env.WORKSPACE}/pipeline.json")
+                     parsedJson = new JsonSlurper().parseText(inputFile)
+                     println "Done reading JSON object"
                     // def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
                     // def deploygroup = deployEnvironments[env]
 
@@ -63,10 +65,10 @@ pipeline {
                     // }
 
                     // def credentialsID = deploygroup.CREDENTIALID
-                    echo "Environment '${env}' found in the pipeline configuration."
+                    // echo "Environment '${env}' found in the pipeline configuration."
                     
                     // Call the aksDeploy script
-                    aksDeploy.call()
+                    aksdeployer('dev', parsedJson)
                 }
             }
         }
