@@ -1,5 +1,5 @@
 // aksdeployer.groovy
-def call(env, pipelineConfig) {
+def aks(env, pipelineConfig) {
     // Load the environment-specific configuration
     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
     def deploygroup = deployEnvironments."${env}"
