@@ -23,9 +23,9 @@ pipeline {
                     }
                     def credentialsID = deployGroup.CREDENTIALID
 
-                    // Ensure the script exists and can be loaded
-                    echo 'Loading aksdeployer.groovy...'
-                    def aksDeployer = load 'aksdeployer.groovy'
+                    // Load the aksdeployet.groovy script
+                    echo 'Loading aksdeployet.groovy...'
+                    def aksDeployer = load 'aksdeployet.groovy'
 
                     // Call the deploy function
                     echo "'${environment}' found in pipeline.json"
