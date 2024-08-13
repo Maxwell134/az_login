@@ -12,7 +12,7 @@ def docker_login(credentialsID) {
 
             docker_login_cmd = """
             set +x
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker login -u $DOCKER_USERNAME --password-stdin
             set -x
             """
             sh docker_login_cmd
