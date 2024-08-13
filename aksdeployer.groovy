@@ -1,8 +1,8 @@
 // aksdeployer.groovy
-def aks(env, pipelineConfig) {
+def call(env, pipelineConfig) {
     // Load the environment-specific configuration
     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-    def deploygroup = deployEnvironments."${env}"
+    def deploygroup = deployEnvironments[env]
 
     if (!deploygroup) {
         error "Environment '${env}' not found in the pipeline configuration."
