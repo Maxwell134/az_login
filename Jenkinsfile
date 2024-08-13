@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script {
                     // Load the aksdeployer.groovy script
+                     def dockerUtils = load 'deployer.groovy
                     def aksDeploy = load 'aksdeployer.groovy'
 
                     // Check if aksDeploy was loaded successfully
