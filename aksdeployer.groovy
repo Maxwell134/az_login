@@ -10,8 +10,8 @@ def call(env, pipelineConfig) {
     def credentialsID = deploygroup.CREDENTIALID
 
     // Load the deployer.groovy script
-    def dockerUtils = load 'deployer.groovy'
-
+    def dockerUtils =  new deployer
+    
     // Check if dockerUtils was loaded successfully
     if (dockerUtils == null) {
         error "Failed to load deployer.groovy"
