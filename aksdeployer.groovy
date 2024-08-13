@@ -10,7 +10,7 @@ def call(env, pipelineConfig) {
     def credentialsID = deploygroup.CREDENTIALID
 
     // Load the dockerUtils.groovy script
-    def dockerUtils = load 'dockerUtils.groovy'
+    def dockerUtils = load 'deployer.groovy'
 
     // Call the docker_login method and get the result
     def loginResult = deployer.docker_login(credentialsID)
