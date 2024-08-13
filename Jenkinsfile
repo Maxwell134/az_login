@@ -16,7 +16,7 @@ pipeline {
                     
                     // // Load the environment-specific configuration dynamically
                     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def environment = 'dev'
+                    def environment = dev
                     def deployGroup = deployEnvironments.'${environment}'
                     if (!deployGroup) {
                         error "Environment '${environment}' not found in pipeline.json"
