@@ -36,7 +36,7 @@ def deployToAks(environment) {
     def credentialsID = deploygroup.'CREDENTIALID'
 
     // Ensure Docker login
-    docker_login(credentialsID)
+    deployer.docker_login(credentialsID)
 
     // Add your deployment logic here
     echo "Deploying to ${environment} environment with credentials ID ${credentialsID}"
