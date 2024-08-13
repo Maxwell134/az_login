@@ -26,4 +26,4 @@ def docker_login(credentialsID) {
     }
 }
 
-return this
+
