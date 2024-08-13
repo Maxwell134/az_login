@@ -36,7 +36,10 @@
 //         }
 //     }
 // }
-import groovy.json.JsonSlurper
+
+
+import groovy.json.JsonSlurperClassic // Using JsonSlurperClassic for serializable objects
+
 pipeline {
     agent any
 
@@ -45,30 +48,22 @@ pipeline {
             steps {
                 script {
                     // Load the aksdeployer.groovy script
-                    // def aksDeploy = load 'aksdeployer.groovy'
+                    def aksDeploy = load 'aksdeployer.groovy'
 
-                    // Check if aksDeploy was loaded successfully
-                    // if (aksDeploy == null) {
-                    //     error "Failed to load aksdeployer.groovy"
-                    // }
+                    // Ensure the aksDeploy script is loaded successfully
+                    if (aksDeploy == null) {
+                        error "Failed to load aksdeployer.groovy"
+                    }
 
-                    // def env = 'dev'
+                    def env = 'dev'
+
                     // Load the pipeline configuration from the JSON file
-                     inputFile = readFile("${env.WORKSPACE}/pipeline.json")
-                     parsedJson = new JsonSlurper().parseText(inputFile)
-                     println "Done reading JSON object"
-                    // def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    // def deploygroup = deployEnvironments[env]
+                    def inputFile = readFile("${env.WORKSPACE}/pipeline.json")
+                    def parsedJson = new JsonSlurperClassic().parseText(inputFile)
+                    echo "JSON object parsed successfully."
 
-                    // if (!deploygroup) {
-                    //     error "Environment '${env}' not found in the pipeline configuration."
-                    // }
-
-                    // def credentialsID = deploygroup.CREDENTIALID
-                    // echo "Environment '${env}' found in the pipeline configuration."
-                    
-                    // Call the aksDeploy script
-                    aksdeployer('dev', parsedJson)
+                    // Deploy to the desired environment (e.g., 'dev')
+                    aksDeploy.call(env, parsedJson)
                 }
             }
         }
