@@ -12,11 +12,11 @@ def docker_login(credentialsID) {
 
             // Debugging: Print username and password (be careful with sensitive data)
             echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
-            echo "Raw credentials: '${DOCKER_CREDENTIALS}'"
+            // echo "Raw credentials: '${DOCKER_CREDENTIALS}'"
 
             // Docker login command using --password-stdin
             sh '''
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
             '''
 
             result.success = true
