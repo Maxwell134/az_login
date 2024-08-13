@@ -30,7 +30,7 @@ pipeline {
 
                     // Call the deploy function
                     // aksDeployerFile.docker_login(credentialsID)
-                    echo '${environment}' found in pipeline.json"
+                    echo "'${environment}' found in pipeline.json"
                      aksDeployerFile.deployToAks(environment)
                 }
             }
