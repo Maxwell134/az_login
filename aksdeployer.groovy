@@ -1,4 +1,3 @@
-// aksdeployer.groovy
 def call(env, pipelineConfig) {
     // Load the environment-specific configuration
     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
@@ -11,9 +10,7 @@ def call(env, pipelineConfig) {
     def credentialsID = deploygroup.CREDENTIALID
 
     // Load the deployer.groovy script
-    
-    // Load the deployer.groovy script
-    def dockerUtils = new deployer()
+    def dockerUtils = load 'deployer.groovy'
 
     // Check if dockerUtils was loaded successfully
     if (dockerUtils == null) {
@@ -39,6 +36,3 @@ def call(env, pipelineConfig) {
 }
 
 return this
-
-
-
