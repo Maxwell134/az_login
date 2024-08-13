@@ -52,17 +52,17 @@ pipeline {
                     // Define your pipeline configuration
                     // def pipelineConfig = readFile('pipeline.json')  // Adjust this as needed
                     // def parserJson = new JsonSlurper().parseText(pipelineConfig)
-                    def env = 'dev' 
+                    // def env = 'dev' 
                     def pipelineConfig = readJSON(file: 'pipeline.json')
                     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments."${env}"
+                    def deploygroup = deployEnvironments.'dev'
                     def credentialsID = deploygroup.CREDENTIALID
                      
 
                     // Call the Groovy method with environment and pipeline configuration
                      // Or any environment you need
                     def aksDeploy = load 'aksdeployer.groovy'
-                    aksDeploy.aks(env, pipelineConfig)
+                    aksDeploy.aks('dev', pipelineConfig)
                 }
             }
         }
