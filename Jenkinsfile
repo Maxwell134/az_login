@@ -12,22 +12,22 @@ pipeline {
                     echo 'Loading pipeline configuration...'
 
                     // Read and parse the JSON file
-                    // def pipelineConfig = readJSON(file: 'pipeline.json')
+                    def pipelineConfig = readJSON(file: 'pipeline.json')
                     
                     // // Load the environment-specific configuration dynamically
-                    // def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    // def deployGroup = deployEnvironments[ENVIRONMENT]
-                    // if (!deployGroup) {
-                    //     error "Environment '${ENVIRONMENT}' not found in pipeline.json"
-                    // }
-                    // def credentialsID = deployGroup.CREDENTIALID
+                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+                    def deployGroup = deployEnvironments[ENVIRONMENT]
+                    if (!deployGroup) {
+                        error "Environment '${ENVIRONMENT}' not found in pipeline.json"
+                    }
+                    def credentialsID = deployGroup.CREDENTIALID
 
                     // Ensure the script exists and can be loaded
                     echo 'Loading deployer.groovy...'
                     def aksDeployerFile = load 'deployer.groovy'
 
                     // Call the deploy function
-                    aksDeployerFile.docker_login()
+                    aksDeployerFile.docker_login(credentialsID)
                 }
             }
         }
