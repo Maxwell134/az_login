@@ -54,19 +54,19 @@ pipeline {
 
                     def env = 'dev'
                     // Load the pipeline configuration from the JSON file
-                    def pipelineConfig = readJSON(file: 'pipeline.json')
-                    def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments[env]
+                    // def pipelineConfig = readJSON(file: 'pipeline.json')
+                    // def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
+                    // def deploygroup = deployEnvironments[env]
 
-                    if (!deploygroup) {
-                        error "Environment '${env}' not found in the pipeline configuration."
-                    }
+                    // if (!deploygroup) {
+                    //     error "Environment '${env}' not found in the pipeline configuration."
+                    // }
 
-                    def credentialsID = deploygroup.CREDENTIALID
+                    // def credentialsID = deploygroup.CREDENTIALID
                     echo "Environment '${env}' found in the pipeline configuration."
                     
                     // Call the aksDeploy script
-                    aksDeploy.call(env, pipelineConfig)
+                    aksDeploy.call(env)
                 }
             }
         }
