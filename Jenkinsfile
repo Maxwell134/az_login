@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    // environment {
-    //     ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
-    // }
+    environment {
+        ENVIRONMENT = 'dev'  // Set the default environment; can be overridden
+    }
 
     stages {
         stage('Initialize') {
