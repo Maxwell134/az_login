@@ -36,18 +36,17 @@ def docker_login(credentialsID) {
 
     try {
         // Mock the JSON for testing
-        def DOCKER_CREDENTIALS = '{"username": "7002370412", "password": "testpassword"}'
-        
+ 
         def jsonSlurper = new JsonSlurper()
         def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
 
         def DOCKER_USERNAME = credentialsJsonObj['username']
         def DOCKER_PASSWORD = credentialsJsonObj['password']
 
-        echo "DOCKER_USERNAME: ${DOCKER_USERNAME}"
+        
 
         // Docker login command using --password-stdin
-         sh 'docker login -u 7002370412 -p 7002370412'
+         sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"'      
         
         
 
