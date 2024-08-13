@@ -29,23 +29,58 @@
 // }
 // return this 
 
-import groovy.json.JsonSlurper
+// import groovy.json.JsonSlurper
+
+// def docker_login(credentialsID) {
+//     def result = [:]  // Create a map to store result status and message
+
+//     try {
+//         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
+//             def jsonSlurper = new JsonSlurper()
+//             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
+//             def DOCKER_USERNAME = credentialsJsonObj['username']
+//             def DOCKER_PASSWORD = credentialsJsonObj['password']
+//             println "DOCKER_USERNAME: ${DOCKER_USERNAME}"
+//             println "DOCKER_PASSWORD: ${DOCKER_PASSWORD}"
+
+
+//             // Docker login command
+//             sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"'
+
+//             result.success = true
+//             result.message = "Docker login successful."
+//         }
+//     } catch (Exception e) {
+//         result.success = false
+//         result.message = "Docker login failed: ${e.message}"
+//     }
+
+//     return result
+// }
+// return this
+
+
+import javax.json.Json
+import javax.json.JsonReader
+import java.io.StringReader
 
 def docker_login(credentialsID) {
     def result = [:]  // Create a map to store result status and message
 
     try {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
-            def jsonSlurper = new JsonSlurper()
-            def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
-            def DOCKER_USERNAME = credentialsJsonObj['username']
-            def DOCKER_PASSWORD = credentialsJsonObj['password']
-            println "DOCKER_USERNAME: ${DOCKER_USERNAME}"
-            println "DOCKER_PASSWORD: ${DOCKER_PASSWORD}"
+            def reader = Json.createReader(new StringReader(DOCKER_CREDENTIALS))
+            def jsonObject = reader.readObject()
+            reader.close()
 
+            def DOCKER_USERNAME = jsonObject.getString("username")
+            def DOCKER_PASSWORD = jsonObject.getString("password")
+
+            println "DOCKER_USERNAME: ${DOCKER_USERNAME}"  // Debugging: Print username
+            println "DOCKER_PASSWORD: ${DOCKER_PASSWORD}"  // Debugging: Print password
 
             // Docker login command
-            sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"'
+            sh "docker login -u \"${DOCKER_USERNAME}\" -p \"${DOCKER_PASSWORD}\""
 
             result.success = true
             result.message = "Docker login successful."
@@ -58,5 +93,3 @@ def docker_login(credentialsID) {
     return result
 }
 return this
-
-
