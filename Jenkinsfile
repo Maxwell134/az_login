@@ -39,9 +39,9 @@
 pipeline {
     agent any
 
-    environment {
-        // Define any necessary environment variables here
-    }
+    // environment {
+    //     // Define any necessary environment variables here
+    // }
 
     stages {
         stage('Deploy') {
