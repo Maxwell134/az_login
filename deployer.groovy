@@ -40,6 +40,9 @@ def docker_login(credentialsID) {
             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
+            println "DOCKER_USERNAME: ${DOCKER_USERNAME}"
+            println "DOCKER_PASSWORD: ${DOCKER_PASSWORD}"
+
 
             // Docker login command
             sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"'
