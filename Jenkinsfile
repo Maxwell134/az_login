@@ -19,7 +19,7 @@ pipeline {
                     // Load the pipeline configuration from the JSON file
                     def pipelineConfig = readJSON(file: 'pipeline.json')
                     def deployEnvironments = pipelineConfig.aksDeploy.deployEnvironments
-                    def deploygroup = deployEnvironments.'dev'
+                    def deploygroup = deployEnvironments.'${env}'
                 
                     if (!deploygroup) {
                         error "Environment '${env}' not found in the pipeline configuration."
