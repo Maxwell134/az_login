@@ -12,10 +12,10 @@ def call(env, pipelineConfig) {
     // Load the deployer.groovy script
     def dockerUtils = load 'deployer.groovy'
     
-    // Check if dockerUtils was loaded successfully
-    // if (dockerUtils == null) {
-    //     error "Failed to load deployer.groovy"
-    // }
+    Check if dockerUtils was loaded successfully
+    if (dockerUtils == null) {
+        error "Failed to load deployer.groovy"
+    }
 
     // Call the docker_login method and get the result
     dockerUtils.docker_login(credentialsID)
