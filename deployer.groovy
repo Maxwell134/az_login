@@ -1,6 +1,8 @@
 import groovy.json.JsonSlurper
 
 def docker_login(credentialsID) {
+    def result = [:]  // Create a map to store result status and message
+
     try {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
             def jsonSlurper = new JsonSlurper()
@@ -8,15 +10,20 @@ def docker_login(credentialsID) {
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
 
-            // Perform Docker login securely
-            sh """
+            docker_login_cmd = """
+            set +x
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            set -x
             """
+            sh docker_login_cmd
+
+            result.success = true
+            result.message = "Docker login successful."
         }
     } catch (Exception e) {
-        echo "Docker login failed: ${e.message}"
-        error("Stopping pipeline due to failed Docker login.")
+        result.success = false
+        result.message = "Docker login failed: ${e.message}"
     }
-}
 
-return this
+    return result
+}
