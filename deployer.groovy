@@ -1,13 +1,12 @@
-// import groovy.json.JsonSlurper
+import groovy.json.JsonSlurper
 
 def docker_login(credentialsID) {
     def result = [:]  // Create a map to store result status and message
 
     try {
         withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
-            // def jsonSlurper = new JsonSlurper()
-            // def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
-            def credentialsJson = readJSON(file: 'DOCKER_CREDENTIALS')
+            def jsonSlurper = new JsonSlurper()
+            def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
             echo " '${credentialsJson}'"
             def DOCKER_USERNAME = credentialsJsonObj['username']
             def DOCKER_PASSWORD = credentialsJsonObj['password']
