@@ -19,7 +19,7 @@ pipeline {
                     def environment = 'dev'
                     def deployGroup = deployEnvironments.'${environment}'
                     if (!deployGroup) {
-                        error "Environment '${ENVIRONMENT}' not found in pipeline.json"
+                        error "Environment '${environment}' not found in pipeline.json"
                     }
                     def credentialsID = deployGroup.CREDENTIALID
 
