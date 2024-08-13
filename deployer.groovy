@@ -1,8 +1,8 @@
 import groovy.json.JsonSlurper
 
-def docker_login() {
+def docker_login(credentialsID) {
     try {
-        withCredentials([string(credentialsId: 'non_prod_credentials', variable: 'DOCKER_CREDENTIALS')]) {
+        withCredentials([string(credentialsId: credentialsID, variable: 'DOCKER_CREDENTIALS')]) {
 
             def jsonSlurper = new JsonSlurper()
             def credentialsJsonObj = jsonSlurper.parseText(DOCKER_CREDENTIALS)
@@ -17,7 +17,7 @@ def docker_login() {
         
             set -x
             // Confirm login success
-            sh 'docker info'
+            docker info
             """
             sh azCmd
         }
