@@ -55,7 +55,7 @@ pipeline {
 
                     // Call the Groovy method with environment and pipeline configuration
                     def env = 'dev'  // Or any environment you need
-                    aks(env, parserJson)
+                    aksdeployer(env, parserJson)
                 }
             }
         }
