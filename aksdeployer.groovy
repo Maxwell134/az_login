@@ -10,7 +10,7 @@ def call(env, pipelineConfig) {
     def credentialsID = deploygroup.CREDENTIALID
 
     // Load the deployer.groovy script
-    def dockerUtils = new deployer()
+    def dockerUtils = load 'deployer.groovy'
     
     // Check if dockerUtils was loaded successfully
     // if (dockerUtils == null) {
@@ -21,12 +21,12 @@ def call(env, pipelineConfig) {
     def loginResult = dockerUtils.docker_login(credentialsID)
 
     // Check the result of Docker login
-    if (loginResult.success) {
-        echo loginResult.message
-    } else {
-        echo loginResult.message
-        error("Stopping pipeline due to failed Docker login.")
-    }
+    // if (loginResult.success) {
+    //     echo loginResult.message
+    // } else {
+    //     echo loginResult.message
+    //     error("Stopping pipeline due to failed Docker login.")
+    // }
 
     // Add your deployment logic here
     echo "Deploying to ${env} environment with credentials ID ${credentialsID}"
@@ -35,4 +35,4 @@ def call(env, pipelineConfig) {
     // sh "deploy_script.sh ${env}"
 }
 
-return this
+// return this
